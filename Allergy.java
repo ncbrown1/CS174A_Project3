@@ -15,11 +15,12 @@ public class Allergy {
     }
 
     public String getSubstance() { return substance; }
-    public void setSubstance(String substance) { this.substance = substance; }
     public String getReaction() { return reaction; }
-    public void setReaction(String reaction) { this.reaction = reaction; }
     public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
     public String getPatientID() { return PatientID; }
+
+    public void setSubstance(String substance) { this.substance = substance; }
+    public void setReaction(String reaction) { this.reaction = reaction; }
+    public void setStatus(String status) { this.status = status; }
     public void setPatientID(String patientID) { PatientID = patientID; }
 }

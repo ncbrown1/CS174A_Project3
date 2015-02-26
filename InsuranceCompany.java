@@ -6,20 +6,25 @@ public class InsuranceCompany {
     private String Name;
     private String Purpose;
     private String PolicyType;
+    private String PolicyHolder;
 
-    public InsuranceCompany(String payerID, String name, String purpose, String policyType) {
+    public InsuranceCompany(String payerID, String name, String purpose, String policyType, String policyHolder) {
         PayerID = payerID;
         Name = name;
         Purpose = purpose;
         PolicyType = policyType;
+        PolicyHolder = policyHolder;
     }
 
     public String getPayerID() { return PayerID; }
-    public void setPayerID(String payerID) { PayerID = payerID; }
     public String getName() { return Name; }
-    public void setName(String name) { Name = name; }
     public String getPurpose() { return Purpose; }
-    public void setPurpose(String purpose) { Purpose = purpose; }
     public String getPolicyType() { return PolicyType; }
+    public String getPolicyHolder() { return PolicyHolder; }
+
+    public void setPayerID(String payerID) { PayerID = payerID; }
+    public void setName(String name) { Name = name; }
+    public void setPurpose(String purpose) { Purpose = purpose; }
     public void setPolicyType(String policyType) { PolicyType = policyType; }
+    public void setPolicyHolder(String policyHolder) { PolicyHolder = policyHolder; }
 }

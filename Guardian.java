@@ -23,19 +23,20 @@ public class Guardian {
     }
 
     public String getGuardianNo() { return GuardianNo; }
-    public void setGuardianNo(String guardianNo) { GuardianNo = guardianNo; }
     public String getGivenName() { return GivenName; }
-    public void setGivenName(String givenName) { GivenName = givenName; }
     public String getFamilyName() { return FamilyName; }
-    public void setFamilyName(String familyName) { FamilyName = familyName; }
     public String getPhone() { return Phone; }
-    public void setPhone(String phone) { Phone = phone; }
     public String getAddress() { return Address; }
-    public void setAddress(String address) { Address = address; }
     public String getCity() { return City; }
-    public void setCity(String city) { City = city; }
     public String getState() { return State; }
-    public void setState(String state) { State = state; }
     public String getZip() { return Zip; }
+
+    public void setGuardianNo(String guardianNo) { GuardianNo = guardianNo; }
+    public void setGivenName(String givenName) { GivenName = givenName; }
+    public void setFamilyName(String familyName) { FamilyName = familyName; }
+    public void setPhone(String phone) { Phone = phone; }
+    public void setAddress(String address) { Address = address; }
+    public void setCity(String city) { City = city; }
+    public void setState(String state) { State = state; }
     public void setZip(String zip) { Zip = zip; }
 }

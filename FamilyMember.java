@@ -17,13 +17,14 @@ public class FamilyMember {
     }
 
     public String getRelationship() { return Relationship; }
-    public void setRelationship(String relationship) { Relationship = relationship; }
     public String getAge() { return Age; }
-    public void setAge(String age) { Age = age; }
     public String getPatientID() { return PatientID; }
-    public void setPatientID(String patientID) { PatientID = patientID; }
     public String getFamilyMemberID() { return FamilyMemberID; }
-    public void setFamilyMemberID(String familyMemberID) { FamilyMemberID = familyMemberID; }
     public String getDiagnosis() { return Diagnosis; }
+
+    public void setRelationship(String relationship) { Relationship = relationship; }
+    public void setAge(String age) { Age = age; }
+    public void setPatientID(String patientID) { PatientID = patientID; }
+    public void setFamilyMemberID(String familyMemberID) { FamilyMemberID = familyMemberID; }
     public void setDiagnosis(String diagnosis) { Diagnosis = diagnosis; }
 }

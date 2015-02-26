@@ -96,92 +96,190 @@ public class Message {
         ScheduledDate = scheduledDate;
     }
 
+    public Patient getPatient() {
+        Patient patient = new Patient(
+                this.getPatientId(),
+                this.getGuardianNo(),
+                this.getGivenName(),
+                this.getFamilyName(),
+                suffix,
+                gender,
+                this.getBirthTime(),
+                this.getProviderId(),
+                new Date()
+        );
+        return patient;
+    }
+
+    public Guardian getGuardian() {
+        Guardian guardian = new Guardian(
+                this.getGuardianNo(),
+                this.getRelationship(),
+                this.getFirstName() + " " + this.getLastName(),
+                this.getPhone(),
+                this.getAddress(),
+                this.getCity(),
+                this.getState(),
+                this.getZip()
+        );
+        return guardian;
+    }
+
+    public Author getAuthor() {
+        Author author = new Author(
+                this.getAuthorId(),
+                this.getAuthorTitle(),
+                this.getAuthorFirstName(),
+                this.getAuthorLastName(),
+                this.getParticipatingRole()
+        );
+        return author;
+    }
+
+    public InsuranceCompany getInsuranceCompany() {
+        InsuranceCompany insuranceCompany = new InsuranceCompany(
+                this.getPayerId(),
+                this.getName(),
+                this.getPurpose(),
+                this.getPolicyType(),
+                this.getPolicyHolder()
+        );
+        return insuranceCompany;
+    }
+
+    public FamilyMember getFamilyMember() {
+        FamilyMember familyMember = new FamilyMember(
+                this.getRelation(),
+                this.getAge(),
+                this.getPatientId(),
+                this.getRelativeId(),
+                this.getDiagnosis()
+        );
+        return familyMember;
+    }
+
+    public Allergy getAllergy() {
+        Allergy allergy = new Allergy(
+                this.getSubstance(),
+                this.getReaction(),
+                this.getStatus(),
+                this.getPatientId()
+        );
+        return allergy;
+    }
+
+    public LabTestReport getLabTestReport() {
+        LabTestReport labTestReport = new LabTestReport(
+                this.getLabTestResultId(),
+                this.getPatientVisitId(),
+                this.getLabTestPerformedDate(),
+                this.getLabTestType(),
+                this.getTestResultValue(),
+                this.getReferenceRangeHigh(),
+                this.getReferenceRangeLow(),
+                this.getPatientId()
+        );
+        return labTestReport;
+    }
+
+    public Plan getPlan() {
+        Plan plan = new Plan(
+                this.getActivity(),
+                this.getPatientId(),
+                this.getScheduledDate(),
+                this.getPlanId()
+        );
+        return plan;
+    }
+
     public String getMsgId() { return MsgId; }
-    public void setMsgId(String msgId) { MsgId = msgId; }
     public Date getLast_Accessed() { return Last_Accessed; }
-    public void setLast_Accessed(Date last_Accessed) { Last_Accessed = last_Accessed; }
     public String getPatientId() { return patientId; }
-    public void setPatientId(String patientId) { this.patientId = patientId; }
     public String getGivenName() { return GivenName; }
-    public void setGivenName(String givenName) { GivenName = givenName; }
     public String getFamilyName() { return FamilyName; }
-    public void setFamilyName(String familyName) { FamilyName = familyName; }
     public Date getBirthTime() { return BirthTime; }
-    public void setBirthTime(Date birthTime) { BirthTime = birthTime; }
     public String getProviderId() { return providerId; }
-    public void setProviderId(String providerId) { this.providerId = providerId; }
     public String getGuardianNo() { return GuardianNo; }
-    public void setGuardianNo(String guardianNo) { GuardianNo = guardianNo; }
     public String getRelationship() { return Relationship; }
-    public void setRelationship(String relationship) { Relationship = relationship; }
     public String getFirstName() { return FirstName; }
-    public void setFirstName(String firstName) { FirstName = firstName; }
     public String getLastName() { return LastName; }
-    public void setLastName(String lastName) { LastName = lastName; }
     public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
     public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
     public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
     public String getState() { return state; }
-    public void setState(String state) { this.state = state; }
     public String getZip() { return zip; }
-    public void setZip(String zip) { this.zip = zip; }
     public String getAuthorId() { return AuthorId; }
-    public void setAuthorId(String authorId) { AuthorId = authorId; }
     public String getAuthorTitle() { return AuthorTitle; }
-    public void setAuthorTitle(String authorTitle) { AuthorTitle = authorTitle; }
     public String getAuthorFirstName() { return AuthorFirstName; }
-    public void setAuthorFirstName(String authorFirstName) { AuthorFirstName = authorFirstName; }
     public String getAuthorLastName() { return AuthorLastName; }
-    public void setAuthorLastName(String authorLastName) { AuthorLastName = authorLastName; }
     public String getParticipatingRole() { return ParticipatingRole; }
-    public void setParticipatingRole(String participatingRole) { ParticipatingRole = participatingRole; }
     public String getPayerId() { return PayerId; }
-    public void setPayerId(String payerId) { PayerId = payerId; }
     public String getName() { return Name; }
-    public void setName(String name) { Name = name; }
     public String getPolicyHolder() { return PolicyHolder; }
-    public void setPolicyHolder(String policyHolder) { PolicyHolder = policyHolder; }
     public String getPolicyType() { return PolicyType; }
-    public void setPolicyType(String policyType) { PolicyType = policyType; }
     public String getPurpose() { return Purpose; }
-    public void setPurpose(String purpose) { Purpose = purpose; }
     public String getRelativeId() { return RelativeId; }
-    public void setRelativeId(String relativeId) { RelativeId = relativeId; }
     public String getRelation() { return Relation; }
-    public void setRelation(String relation) { Relation = relation; }
     public String getAge() { return age; }
-    public void setAge(String age) { this.age = age; }
     public String getDiagnosis() { return Diagnosis; }
-    public void setDiagnosis(String diagnosis) { Diagnosis = diagnosis; }
     public String getId() { return Id; }
-    public void setId(String id) { Id = id; }
     public String getSubstance() { return Substance; }
-    public void setSubstance(String substance) { Substance = substance; }
     public String getReaction() { return Reaction; }
-    public void setReaction(String reaction) { Reaction = reaction; }
     public String getStatus() { return Status; }
-    public void setStatus(String status) { Status = status; }
     public String getLabTestResultId() { return LabTestResultId; }
-    public void setLabTestResultId(String labTestResultId) { LabTestResultId = labTestResultId; }
     public String getPatientVisitId() { return PatientVisitId; }
-    public void setPatientVisitId(String patientVisitId) { PatientVisitId = patientVisitId; }
     public Date getLabTestPerformedDate() { return LabTestPerformedDate; }
-    public void setLabTestPerformedDate(Date labTestPerformedDate) { LabTestPerformedDate = labTestPerformedDate; }
     public String getLabTestType() { return LabTestType; }
-    public void setLabTestType(String labTestType) { LabTestType = labTestType; }
     public String getTestResultValue() { return TestResultValue; }
-    public void setTestResultValue(String testResultValue) { TestResultValue = testResultValue; }
     public String getReferenceRangeHigh() { return ReferenceRangeHigh; }
-    public void setReferenceRangeHigh(String referenceRangeHigh) { ReferenceRangeHigh = referenceRangeHigh; }
     public String getReferenceRangeLow() { return ReferenceRangeLow; }
-    public void setReferenceRangeLow(String referenceRangeLow) { ReferenceRangeLow = referenceRangeLow; }
     public String getPlanId() { return PlanId; }
-    public void setPlanId(String planId) { PlanId = planId; }
     public String getActivity() { return Activity; }
-    public void setActivity(String activity) { Activity = activity; }
     public Date getScheduledDate() { return ScheduledDate; }
+
+    public void setMsgId(String msgId) { MsgId = msgId; }
+    public void setLast_Accessed(Date last_Accessed) { Last_Accessed = last_Accessed; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
+    public void setGivenName(String givenName) { GivenName = givenName; }
+    public void setFamilyName(String familyName) { FamilyName = familyName; }
+    public void setBirthTime(Date birthTime) { BirthTime = birthTime; }
+    public void setProviderId(String providerId) { this.providerId = providerId; }
+    public void setGuardianNo(String guardianNo) { GuardianNo = guardianNo; }
+    public void setRelationship(String relationship) { Relationship = relationship; }
+    public void setFirstName(String firstName) { FirstName = firstName; }
+    public void setLastName(String lastName) { LastName = lastName; }
+    public void setPhone(String phone) { this.phone = phone; }
+    public void setAddress(String address) { this.address = address; }
+    public void setCity(String city) { this.city = city; }
+    public void setState(String state) { this.state = state; }
+    public void setZip(String zip) { this.zip = zip; }
+    public void setAuthorId(String authorId) { AuthorId = authorId; }
+    public void setAuthorTitle(String authorTitle) { AuthorTitle = authorTitle; }
+    public void setAuthorFirstName(String authorFirstName) { AuthorFirstName = authorFirstName; }
+    public void setAuthorLastName(String authorLastName) { AuthorLastName = authorLastName; }
+    public void setParticipatingRole(String participatingRole) { ParticipatingRole = participatingRole; }
+    public void setPayerId(String payerId) { PayerId = payerId; }
+    public void setName(String name) { Name = name; }
+    public void setPolicyHolder(String policyHolder) { PolicyHolder = policyHolder; }
+    public void setPolicyType(String policyType) { PolicyType = policyType; }
+    public void setPurpose(String purpose) { Purpose = purpose; }
+    public void setRelativeId(String relativeId) { RelativeId = relativeId; }
+    public void setRelation(String relation) { Relation = relation; }
+    public void setAge(String age) { this.age = age; }
+    public void setDiagnosis(String diagnosis) { Diagnosis = diagnosis; }
+    public void setId(String id) { Id = id; }
+    public void setSubstance(String substance) { Substance = substance; }
+    public void setReaction(String reaction) { Reaction = reaction; }
+    public void setStatus(String status) { Status = status; }
+    public void setLabTestResultId(String labTestResultId) { LabTestResultId = labTestResultId; }
+    public void setPatientVisitId(String patientVisitId) { PatientVisitId = patientVisitId; }
+    public void setLabTestPerformedDate(Date labTestPerformedDate) { LabTestPerformedDate = labTestPerformedDate; }
+    public void setLabTestType(String labTestType) { LabTestType = labTestType; }
+    public void setTestResultValue(String testResultValue) { TestResultValue = testResultValue; }
+    public void setReferenceRangeHigh(String referenceRangeHigh) { ReferenceRangeHigh = referenceRangeHigh; }
+    public void setReferenceRangeLow(String referenceRangeLow) { ReferenceRangeLow = referenceRangeLow; }
+    public void setPlanId(String planId) { PlanId = planId; }
+    public void setActivity(String activity) { Activity = activity; }
     public void setScheduledDate(Date scheduledDate) { ScheduledDate = scheduledDate; }
+
 }

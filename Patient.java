@@ -14,7 +14,7 @@ public class Patient {
     private String providerId;
     private Date xmlCreationdate;
 
-    public Patient(String ID, String patientrole, String firstName, String givenname, String familyname, String suffix, String gender, Date birthtime, String providerid, Date xmlCreationDate)
+    public Patient(String ID, String patientrole, String givenname, String familyname, String suffix, String gender, Date birthtime, String providerid, Date xmlCreationDate)
     {
         this.patientid = ID;
         this.patientrole = patientrole;
@@ -28,21 +28,22 @@ public class Patient {
     }
 
     public String getPatientid() { return patientid; }
-    public void setPatientid(String patientid) { this.patientid = patientid;}
     public String getPatientrole() { return patientrole; }
-    public void setPatientrole(String patientrole) { this.patientrole = patientrole; }
     public String getGivenname() { return givenname; }
-    public void setGivenname(String givenname) { this.givenname = givenname; }
     public String getFamilyname() { return familyname; }
-    public void setFamilyname(String familyname) { this.familyname = familyname; }
     public String getSuffix() { return suffix; }
-    public void setSuffix(String suffix) { this.suffix = suffix; }
     public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
     public Date getBirthtime() { return birthtime; }
-    public void setBirthtime(Date birthtime) { this.birthtime = birthtime; }
     public String getProviderId() { return providerId; }
-    public void setProviderId(String providerId) { this.providerId = providerId; }
     public Date getXmlCreationdate() { return xmlCreationdate; }
+
+    public void setPatientid(String patientid) { this.patientid = patientid;}
+    public void setPatientrole(String patientrole) { this.patientrole = patientrole; }
+    public void setGivenname(String givenname) { this.givenname = givenname; }
+    public void setFamilyname(String familyname) { this.familyname = familyname; }
+    public void setSuffix(String suffix) { this.suffix = suffix; }
+    public void setGender(String gender) { this.gender = gender; }
+    public void setBirthtime(Date birthtime) { this.birthtime = birthtime; }
+    public void setProviderId(String providerId) { this.providerId = providerId; }
     public void setXmlCreationdate(Date xmlCreationdate) { this.xmlCreationdate = xmlCreationdate; }
 }
