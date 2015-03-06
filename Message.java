@@ -102,8 +102,8 @@ public class Message {
                 this.getGuardianNo(),
                 this.getGivenName(),
                 this.getFamilyName(),
-                suffix,
-                gender,
+                null,
+                null,
                 this.getBirthTime(),
                 this.getProviderId(),
                 new Date()
@@ -131,6 +131,7 @@ public class Message {
                 this.getAuthorTitle(),
                 this.getAuthorFirstName(),
                 this.getAuthorLastName(),
+                this.getPatientId(),
                 this.getParticipatingRole()
         );
         return author;
