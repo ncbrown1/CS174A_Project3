@@ -1,5 +1,3 @@
-import java.util.Date;
-
 /**
  * Created by ncbrown on 2/25/15.
  */
@@ -10,11 +8,11 @@ public class Patient {
     private String familyname;
     private String suffix;
     private String gender;
-    private Date birthtime;
+    private String birthtime;
     private String providerId;
-    private Date xmlCreationdate;
+    private String xmlCreationdate;
 
-    public Patient(String ID, String patientrole, String givenname, String familyname, String suffix, String gender, Date birthtime, String providerid, Date xmlCreationDate)
+    public Patient(String ID, String patientrole, String givenname, String familyname, String suffix, String gender, String birthtime, String providerid, String xmlCreationDate)
     {
         this.patientid = ID;
         this.patientrole = patientrole;
@@ -33,9 +31,9 @@ public class Patient {
     public String getFamilyname() { return familyname; }
     public String getSuffix() { return suffix; }
     public String getGender() { return gender; }
-    public Date getBirthtime() { return birthtime; }
+    public String getBirthtime() { return birthtime; }
     public String getProviderId() { return providerId; }
-    public Date getXmlCreationdate() { return xmlCreationdate; }
+    public String getXmlCreationdate() { return xmlCreationdate; }
 
     public void setPatientid(String patientid) { this.patientid = patientid;}
     public void setPatientrole(String patientrole) { this.patientrole = patientrole; }
@@ -43,7 +41,7 @@ public class Patient {
     public void setFamilyname(String familyname) { this.familyname = familyname; }
     public void setSuffix(String suffix) { this.suffix = suffix; }
     public void setGender(String gender) { this.gender = gender; }
-    public void setBirthtime(Date birthtime) { this.birthtime = birthtime; }
+    public void setBirthtime(String birthtime) { this.birthtime = birthtime; }
     public void setProviderId(String providerId) { this.providerId = providerId; }
-    public void setXmlCreationdate(Date xmlCreationdate) { this.xmlCreationdate = xmlCreationdate; }
+    public void setXmlCreationdate(String xmlCreationdate) { this.xmlCreationdate = xmlCreationdate; }
 }

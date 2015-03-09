@@ -5,11 +5,11 @@ import java.util.Date;
  */
 public class Message {
     private String MsgId;
-    private Date Last_Accessed;
+    private String Last_Accessed;
     private String patientId;
     private String GivenName;
     private String FamilyName;
-    private Date BirthTime;
+    private String BirthTime;
     private String providerId;
     private String GuardianNo;
     private String Relationship;
@@ -40,16 +40,16 @@ public class Message {
     private String Status;
     private String LabTestResultId;
     private String PatientVisitId;
-    private Date LabTestPerformedDate;
+    private String LabTestPerformedDate;
     private String LabTestType;
     private String TestResultValue;
     private String ReferenceRangeHigh;
     private String ReferenceRangeLow;
     private String PlanId;
     private String Activity;
-    private Date ScheduledDate;
+    private String ScheduledDate;
 
-    public Message(String msgId, Date last_Accessed, String patientId, String givenName, String familyName, Date birthTime, String providerId, String guardianNo, String relationship, String firstName, String lastName, String phone, String address, String city, String state, String zip, String authorId, String authorTitle, String authorFirstName, String authorLastName, String participatingRole, String payerId, String name, String policyHolder, String policyType, String purpose, String relativeId, String relation, String age, String diagnosis, String id, String substance, String reaction, String status, String labTestResultId, String patientVisitId, Date labTestPerformedDate, String labTestType, String testResultValue, String referenceRangeHigh, String referenceRangeLow, String planId, String activity, Date scheduledDate) {
+    public Message(String msgId, String last_Accessed, String patientId, String givenName, String familyName, String birthTime, String providerId, String guardianNo, String relationship, String firstName, String lastName, String phone, String address, String city, String state, String zip, String authorId, String authorTitle, String authorFirstName, String authorLastName, String participatingRole, String payerId, String name, String policyHolder, String policyType, String purpose, String relativeId, String relation, String age, String diagnosis, String id, String substance, String reaction, String status, String labTestResultId, String patientVisitId, String labTestPerformedDate, String labTestType, String testResultValue, String referenceRangeHigh, String referenceRangeLow, String planId, String activity, String scheduledDate) {
         MsgId = msgId;
         Last_Accessed = last_Accessed;
         this.patientId = patientId;
@@ -106,7 +106,7 @@ public class Message {
                 null,
                 this.getBirthTime(),
                 this.getProviderId(),
-                new Date()
+                new Date().toString()
         );
         return patient;
     }
@@ -194,11 +194,11 @@ public class Message {
     }
 
     public String getMsgId() { return MsgId; }
-    public Date getLast_Accessed() { return Last_Accessed; }
+    public String getLast_Accessed() { return Last_Accessed; }
     public String getPatientId() { return patientId; }
     public String getGivenName() { return GivenName; }
     public String getFamilyName() { return FamilyName; }
-    public Date getBirthTime() { return BirthTime; }
+    public String getBirthTime() { return BirthTime; }
     public String getProviderId() { return providerId; }
     public String getGuardianNo() { return GuardianNo; }
     public String getRelationship() { return Relationship; }
@@ -229,21 +229,21 @@ public class Message {
     public String getStatus() { return Status; }
     public String getLabTestResultId() { return LabTestResultId; }
     public String getPatientVisitId() { return PatientVisitId; }
-    public Date getLabTestPerformedDate() { return LabTestPerformedDate; }
+    public String getLabTestPerformedDate() { return LabTestPerformedDate; }
     public String getLabTestType() { return LabTestType; }
     public String getTestResultValue() { return TestResultValue; }
     public String getReferenceRangeHigh() { return ReferenceRangeHigh; }
     public String getReferenceRangeLow() { return ReferenceRangeLow; }
     public String getPlanId() { return PlanId; }
     public String getActivity() { return Activity; }
-    public Date getScheduledDate() { return ScheduledDate; }
+    public String getScheduledDate() { return ScheduledDate; }
 
     public void setMsgId(String msgId) { MsgId = msgId; }
-    public void setLast_Accessed(Date last_Accessed) { Last_Accessed = last_Accessed; }
+    public void setLast_Accessed(String last_Accessed) { Last_Accessed = last_Accessed; }
     public void setPatientId(String patientId) { this.patientId = patientId; }
     public void setGivenName(String givenName) { GivenName = givenName; }
     public void setFamilyName(String familyName) { FamilyName = familyName; }
-    public void setBirthTime(Date birthTime) { BirthTime = birthTime; }
+    public void setBirthTime(String birthTime) { BirthTime = birthTime; }
     public void setProviderId(String providerId) { this.providerId = providerId; }
     public void setGuardianNo(String guardianNo) { GuardianNo = guardianNo; }
     public void setRelationship(String relationship) { Relationship = relationship; }
@@ -274,13 +274,13 @@ public class Message {
     public void setStatus(String status) { Status = status; }
     public void setLabTestResultId(String labTestResultId) { LabTestResultId = labTestResultId; }
     public void setPatientVisitId(String patientVisitId) { PatientVisitId = patientVisitId; }
-    public void setLabTestPerformedDate(Date labTestPerformedDate) { LabTestPerformedDate = labTestPerformedDate; }
+    public void setLabTestPerformedDate(String labTestPerformedDate) { LabTestPerformedDate = labTestPerformedDate; }
     public void setLabTestType(String labTestType) { LabTestType = labTestType; }
     public void setTestResultValue(String testResultValue) { TestResultValue = testResultValue; }
     public void setReferenceRangeHigh(String referenceRangeHigh) { ReferenceRangeHigh = referenceRangeHigh; }
     public void setReferenceRangeLow(String referenceRangeLow) { ReferenceRangeLow = referenceRangeLow; }
     public void setPlanId(String planId) { PlanId = planId; }
     public void setActivity(String activity) { Activity = activity; }
-    public void setScheduledDate(Date scheduledDate) { ScheduledDate = scheduledDate; }
+    public void setScheduledDate(String scheduledDate) { ScheduledDate = scheduledDate; }
 
 }

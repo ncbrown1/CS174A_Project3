@@ -6,14 +6,14 @@ import java.util.Date;
 public class LabTestReport {
     private String LabTestResultID;
     private String PatientVisitID;
-    private Date LabTestPerformedDate;
+    private String LabTestPerformedDate;
     private String LabTestType;
     private String TestResultValue;
     private String ReferenceRangeHigh;
     private String ReferenceRangeLow;
     private String PatientID;
 
-    public LabTestReport(String labTestResultID, String patientVisitID, Date labTestPerformedDate, String labTestType, String testResultValue, String referenceRangeHigh, String referenceRangeLow, String patientID) {
+    public LabTestReport(String labTestResultID, String patientVisitID, String labTestPerformedDate, String labTestType, String testResultValue, String referenceRangeHigh, String referenceRangeLow, String patientID) {
         LabTestResultID = labTestResultID;
         PatientVisitID = patientVisitID;
         LabTestPerformedDate = labTestPerformedDate;
@@ -26,7 +26,7 @@ public class LabTestReport {
 
     public String getLabTestResultID() { return LabTestResultID; }
     public String getPatientVisitID() { return PatientVisitID; }
-    public Date getLabTestPerformedDate() { return LabTestPerformedDate; }
+    public String getLabTestPerformedDate() { return LabTestPerformedDate; }
     public String getLabTestType() { return LabTestType; }
     public String getTestResultValue() { return TestResultValue; }
     public String getReferenceRangeHigh() { return ReferenceRangeHigh; }
@@ -35,7 +35,7 @@ public class LabTestReport {
 
     public void setLabTestResultID(String labTestResultID) { LabTestResultID = labTestResultID; }
     public void setPatientVisitID(String patientVisitID) { PatientVisitID = patientVisitID; }
-    public void setLabTestPerformedDate(Date labTestPerformedDate) { LabTestPerformedDate = labTestPerformedDate; }
+    public void setLabTestPerformedDate(String labTestPerformedDate) { LabTestPerformedDate = labTestPerformedDate; }
     public void setLabTestType(String labTestType) { LabTestType = labTestType; }
     public void setTestResultValue(String testResultValue) { TestResultValue = testResultValue; }
     public void setReferenceRangeHigh(String referenceRangeHigh) { ReferenceRangeHigh = referenceRangeHigh; }

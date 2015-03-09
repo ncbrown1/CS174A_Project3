@@ -6,10 +6,10 @@ import java.util.Date;
 public class Plan {
     private String Activity;
     private String PatientID;
-    private Date ActivityDate;
+    private String ActivityDate;
     private String PlanID;
 
-    public Plan(String activity, String patientID, Date activityDate, String planID) {
+    public Plan(String activity, String patientID, String activityDate, String planID) {
         Activity = activity;
         PatientID = patientID;
         ActivityDate = activityDate;
@@ -18,11 +18,11 @@ public class Plan {
 
     public String getActivity() { return Activity; }
     public String getPatientID() { return PatientID; }
-    public Date getActivityDate() { return ActivityDate; }
+    public String getActivityDate() { return ActivityDate; }
     public String getPlanID() { return PlanID; }
 
     public void setActivity(String activity) { Activity = activity; }
     public void setPatientID(String patientID) { PatientID = patientID; }
-    public void setActivityDate(Date activityDate) { ActivityDate = activityDate; }
+    public void setActivityDate(String activityDate) { ActivityDate = activityDate; }
     public void setPlanID(String planID) { PlanID = planID; }
 }
