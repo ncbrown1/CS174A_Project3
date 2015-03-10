@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -96,6 +97,11 @@ public class Message {
         ScheduledDate = scheduledDate;
     }
 
+    private String getTodayString() {
+        Calendar c = Calendar.getInstance();
+        return (c.get(Calendar.MONTH)+1) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR);
+    }
+
     public Patient getPatient() {
         Patient patient = new Patient(
                 this.getPatientId(),
@@ -106,7 +112,8 @@ public class Message {
                 null,
                 this.getBirthTime(),
                 this.getProviderId(),
-                new Date().toString()
+                getTodayString(),
+                this.getPayerId()
         );
         return patient;
     }
@@ -161,12 +168,21 @@ public class Message {
 
     public Allergy getAllergy() {
         Allergy allergy = new Allergy(
+                this.getId(),
+                this.getSubstance()
+        );
+        return allergy;
+    }
+
+    public PatientAllergy getPatientAllergy() {
+        PatientAllergy pallergy = new PatientAllergy(
+                this.getId(),
                 this.getSubstance(),
                 this.getReaction(),
                 this.getStatus(),
                 this.getPatientId()
         );
-        return allergy;
+        return pallergy;
     }
 
     public LabTestReport getLabTestReport() {
@@ -177,10 +193,17 @@ public class Message {
                 this.getLabTestType(),
                 this.getTestResultValue(),
                 this.getReferenceRangeHigh(),
-                this.getReferenceRangeLow(),
-                this.getPatientId()
+                this.getReferenceRangeLow()
         );
         return labTestReport;
+    }
+
+    public PatientTest getPatientTest() {
+        PatientTest patientTest = new PatientTest(
+                this.getPatientId(),
+                this.getLabTestResultId()
+        );
+        return patientTest;
     }
 
     public Plan getPlan() {

@@ -41,6 +41,7 @@ public class Extractor {
     }
 
     public boolean executeUpdate(Connection conn, String command) throws SQLException {
+        if(command == "") return true;
         Statement stmt = null;
         try {
             stmt = conn.createStatement();
@@ -55,13 +56,9 @@ public class Extractor {
 
     public ResultSet executeQuery(Connection conn, String query) throws SQLException {
         Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            return rs;
-        } finally {
-            if(stmt != null) stmt.close();
-        }
+        stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        return rs;
     }
 
     public void run() {
@@ -80,12 +77,10 @@ public class Extractor {
         }
 
         try {
-            String query = "SELECT * FROM messages";
-            ResultSet rs = this.executeQuery(msgcon, query);
-
+            ResultSet rs = this.executeQuery(msgcon, "SELECT * FROM messages");
             while(rs.next()) {
                 Message message = new Message(
-                        rs.getString("MsgId"), rs.getString("Last_Accessed"), rs.getString("patientId"),
+                        rs.getString("MsgID"), rs.getString("Last_Accessed"), rs.getString("patientId"),
                         rs.getString("GivenName"), rs.getString("FamilyName"), rs.getString("BirthTime"),
                         rs.getString("providerId"), rs.getString("GuardianNo"), rs.getString("Relationship"),
                         rs.getString("FirstName"), rs.getString("LastName"), rs.getString("phone"),
@@ -100,12 +95,27 @@ public class Extractor {
                         rs.getString("LabTestPerformedDate"), rs.getString("LabTestType"), rs.getString("TestResultValue"),
                         rs.getString("ReferenceRangeHigh"), rs.getString("ReferenceRangeLow"), rs.getString("PlanId"),
                         rs.getString("Activity"), rs.getString("ScheduledDate"));
-                Patient patient = message.getPatient();
-            }
+                executeUpdate(msgcon,"UPDATE messages SET Last_Accessed=CURDATE() WHERE MsgID=\"" + rs.getString("MsgID") + "\"");
+                executeUpdate(infocon,message.getGuardian().insertStatement());
+                executeUpdate(infocon,message.getInsuranceCompany().insertStatement());
+                // executeUpdate(infocon,message.getAllergy().insertStatement());
+                executeUpdate(infocon,message.getLabTestReport().insertStatement());
+                executeUpdate(infocon,message.getPatient().insertStatement());
+                executeUpdate(infocon,message.getAuthor().insertStatement());
+                executeUpdate(infocon,message.getFamilyMember().insertStatement());
+                executeUpdate(infocon,message.getPatientAllergy().insertStatement());
+                executeUpdate(infocon,message.getPatientTest().insertStatement());
+                executeUpdate(infocon,message.getPlan().insertStatement());
 
+            }
+            System.out.println("Finished importing data");
         } catch (SQLException e) {
             System.out.println("ERROR: Could not connect to message exchange");
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        new Extractor().run();
     }
 }

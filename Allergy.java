@@ -2,25 +2,24 @@
  * Created by ncbrown on 2/26/15.
  */
 public class Allergy {
-    private String substance;
-    private String reaction;
-    private String status;
-    private String PatientID;
+    private String AllergyID;
+    private String substance_name;
 
-    public Allergy(String substance, String reaction, String status, String patientID) {
-        this.substance = substance;
-        this.reaction = reaction;
-        this.status = status;
-        PatientID = patientID;
+    public Allergy(String allergyID, String substance_name) {
+        AllergyID = allergyID;
+        this.substance_name = substance_name;
     }
 
-    public String getSubstance() { return substance; }
-    public String getReaction() { return reaction; }
-    public String getStatus() { return status; }
-    public String getPatientID() { return PatientID; }
+    public String insertStatement() {
+        String sn = getSubstanceName(), aid = getAllergyID();
+        return "INSERT INTO Allergy(AllergyID,substance_name)" +
+                "VALUES ("+sn+","+aid+") " +
+                "ON DUPLICATE KEY UPDATE substance_name="+sn+";";
+    }
 
-    public void setSubstance(String substance) { this.substance = substance; }
-    public void setReaction(String reaction) { this.reaction = reaction; }
-    public void setStatus(String status) { this.status = status; }
-    public void setPatientID(String patientID) { PatientID = patientID; }
+    public String getSubstanceName() { return substance_name == null ? "NULL" : "\"" + substance_name + "\""; }
+    public String getAllergyID() { return AllergyID == null ? "NULL" : "\"" + AllergyID + "\""; }
+
+    public void setSubstanceName(String substance_name) { this.substance_name = substance_name; }
+    public void setAllergyID(String allergyID) { AllergyID = allergyID; }
 }

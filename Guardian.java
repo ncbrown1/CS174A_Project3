@@ -22,14 +22,24 @@ public class Guardian {
         Zip = zip;
     }
 
-    public String getGuardianNo() { return GuardianNo; }
-    public String getGivenName() { return GivenName; }
-    public String getFamilyName() { return FamilyName; }
-    public String getPhone() { return Phone; }
-    public String getAddress() { return Address; }
-    public String getCity() { return City; }
-    public String getState() { return State; }
-    public String getZip() { return Zip; }
+    public String insertStatement() {
+        if(GuardianNo == null) return "";
+        String gno = getGuardianNo(), gn = getGivenName(), fn = getFamilyName(), ph = getPhone(),
+                add = getAddress(), c = getCity(), s = getState(), z = getZip();
+        return "INSERT INTO Guardian(GuardianNo,GivenName,FamilyName,Phone,Address,City,State,Zip)" +
+                "VALUES ("+gno+","+gn+","+fn+","+ph+","+add+","+c+","+s+","+z+") " +
+                "ON DUPLICATE KEY UPDATE GivenName="+gn+",FamilyName="+fn+",Phone="+ph+",Address="+add+
+                ",City="+c+",State="+s+",Zip="+z+";";
+    }
+
+    public String getGuardianNo() { return GuardianNo == null ? "NULL" : "\"" + GuardianNo + "\""; }
+    public String getGivenName() { return GivenName == null ? "NULL" : "\"" + GivenName + "\""; }
+    public String getFamilyName() { return FamilyName == null ? "NULL" : "\"" + FamilyName + "\""; }
+    public String getPhone() { return Phone == null ? "NULL" : "\"" + Phone + "\""; }
+    public String getAddress() { return Address == null ? "NULL" : "\"" + Address + "\""; }
+    public String getCity() { return City == null ? "NULL" : "\"" + City + "\""; }
+    public String getState() { return State == null ? "NULL" : "\"" + State + "\""; }
+    public String getZip() { return Zip == null ? "NULL" : "\"" + Zip + "\""; }
 
     public void setGuardianNo(String guardianNo) { GuardianNo = guardianNo; }
     public void setGivenName(String givenName) { GivenName = givenName; }
