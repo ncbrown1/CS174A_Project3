@@ -54,9 +54,16 @@ CREATE TABLE IF NOT EXISTS Author(
 	AuthorTitle CHAR(100),
 	AuthorFirstName CHAR(100),
 	AuthorLastName CHAR(100),
-	PatientID CHAR(100) NOT NULL,
 	ParticipatingRole CHAR(100),
-	PRIMARY KEY (AuthorID),
+	PRIMARY KEY (AuthorID)
+);
+
+
+CREATE TABLE IF NOT EXISTS AuthorPatient(
+	AuthorID CHAR(100) NOT NULL,
+	PatientID CHAR(100) NOT NULL,
+	PRIMARY KEY (AuthorID,PatientID),
+	FOREIGN KEY (AuthorID) REFERENCES Author(AuthorID) ON DELETE CASCADE,
 	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE
 );
 
