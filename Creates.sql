@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `HIS`;
-USE `HIS`;
+CREATE DATABASE IF NOT EXISTS `healthinformationsysystem`;
+USE `healthinformationsysystem`;
 
 CREATE TABLE IF NOT EXISTS Guardian(
 	GuardianNo CHAR(100) NOT NULL,
