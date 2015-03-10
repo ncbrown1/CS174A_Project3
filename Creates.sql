@@ -1,101 +1,98 @@
-CREATE TABLE Patient(
-	PatientID INTEGER NOT NULL,
-	GivenName CHAR(30),
-	FamilyName CHAR(30),
-	Suffix CHAR(10),
-	Gender CHAR(10),
-	Birthtime DATE,
-	ProviderID INTEGER NOT NULL,
-	Creation DATE,
-	PatientRole INTEGER NOT NULL,
-	PRIMARY KEY (PatientID),
-	FOREIGN KEY (ProviderID) REFERENCES InsuranceCompany(PayerID) ON DELETE NO ACTION,
-	FOREIGN KEY (PatientRole) REFERENCES Guardian_of(GuardianNo) ON DELETE NO ACTION
-);
+CREATE DATABASE IF NOT EXISTS `HIS`;
+USE `HIS`;
 
-CREATE TABLE Guardian_of(
-	GuardianNo INTEGER NOT NULL,
-	GivenName CHAR(30),
-	FamilyName CHAR(30),
-	Phone CHAR(10),
-	Address CHAR(30),
-	City CHAR(30),
-	State CHAR(30),
-	Zip CHAR(6),
+CREATE TABLE IF NOT EXISTS Guardian(
+	GuardianNo CHAR(100) NOT NULL,
+	GivenName CHAR(100),
+	FamilyName CHAR(100),
+	Phone CHAR(100),
+	Address CHAR(100),
+	City CHAR(100),
+	State CHAR(100),
+	Zip CHAR(100),
 	PRIMARY KEY (GuardianNo) 
 );
 
-CREATE TABLE Author(
-	AuthorID INTEGER NOT NULL,
-	AuthorTitle CHAR(10),
-	AuthorFirstName CHAR(30),
-	AuthorLastName CHAR(30),
-	PatientID INTEGER NOT NULL,
-	ParticipatingRole CHAR(30),
+CREATE TABLE IF NOT EXISTS InsuranceCompany (
+	PayerID CHAR(100) NOT NULL,
+	Name CHAR(100),
+	Purpose CHAR(100),
+	PolicyType CHAR(100),
+	PRIMARY KEY (PayerID)
+);
+
+CREATE TABLE IF NOT EXISTS LabTestReport(
+	LabTestResultID CHAR(100) NOT NULL,
+	PatientVisitID CHAR(100) NOT NULL,
+	LabTestPerformedDate Date,
+	LabTestType CHAR(100),
+	ReferenceRangeHigh CHAR(100),
+	ReferenceRangeLow CHAR(100),
+	TestResultValue CHAR(100),
+	PRIMARY KEY (LabTestResultID),
+	UNIQUE (LabTestResultID,PatientVisitID)
+);
+
+CREATE TABLE IF NOT EXISTS Patient(
+	PatientID CHAR(100) NOT NULL,
+	GivenName CHAR(100),
+	FamilyName CHAR(100),
+	Suffix CHAR(100),
+	Gender CHAR(100),
+	Birthtime Date,
+	ProviderID CHAR(100) NOT NULL,
+	Creation Date,
+	PatientRole CHAR(100) NOT NULL,
+	PayerID CHAR(100),
+	PRIMARY KEY (PatientID),
+	FOREIGN KEY (PayerID) REFERENCES InsuranceCompany(PayerID) ON DELETE NO ACTION,
+	FOREIGN KEY (PatientRole) REFERENCES Guardian(GuardianNo) ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS Author(
+	AuthorID CHAR(100) NOT NULL,
+	AuthorTitle CHAR(100),
+	AuthorFirstName CHAR(100),
+	AuthorLastName CHAR(100),
+	PatientID CHAR(100) NOT NULL,
+	ParticipatingRole CHAR(100),
 	PRIMARY KEY (AuthorID),
 	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE
 );
 
-CREATE TABLE InsuranceCompany (
-	PayerID INTEGER NOT NULL,
-	Name CHAR(30),
-	Purpose CHAR(100),
-	PolicyType CHAR(30),
-	PRIMARY KEY (PayerID)
-);
-
-CREATE TABLE FamilyHistory(
-	Relationship CHAR(30),
-	Age INTEGER,
-	PatientID INTEGER NOT NULL,
-	FamilyMemberID INTEGER NOT NULL,
+CREATE TABLE IF NOT EXISTS FamilyHistory(
+	Relationship CHAR(100),
+	Age CHAR(100),
+	PatientID CHAR(100) NOT NULL,
+	FamilyMemberID CHAR(100) NOT NULL,
 	Diagnosis CHAR(100),
 	PRIMARY KEY (FamilyMemberID, PatientID),
-	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE NO ACTION,
-	FOREIGN KEY (FamilyMemberID) REFERENCES Patient(PatientID) ON DELETE NO ACTION
+	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE NO ACTION
 );
 
-CREATE TABLE Patient_Allergy(
-	AllergyID CHAR(30) NOT NULL,
-	reaction CHAR(30),
-	status CHAR(30),
-	PatientID INTEGER NOT NULL,
+CREATE TABLE IF NOT EXISTS Allergy(
+	AllergyID CHAR(100) NOT NULL,
+	substance_name CHAR(100),
+	reaction CHAR(100),
+	status CHAR(100),
+	PatientID CHAR(100) NOT NULL,
 	PRIMARY KEY (PatientID, AllergyID),
-	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE 
-	FOREIGN KEY (AllergyID) REFERENCES Allergy(AllergyID) ON DELETE CASCADE
-);
-
-CREATE TABLE Allergy(
-	AllergyID INTEGER NOT NULL,
-	substance_name CHAR(30) NOT NULL,
-	PRIMARY KEY (AllergyID)
-);
-
-CREATE TABLE Patient_Test(
-	PatientID INTEGER NOT NULL,
-	LabTestResultID INTEGER NOT NULL,
-	PatientVisitID INTEGER NOT NULL,
-	PRIMARY KEY (PatientID,LabTestResultID,PatientVisitID),
-	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
-	FOREIGN KEY (LabTestResultID,PatientVisitID) REFERENCES Lab_Test_Report(LabTestResultID,PatientVisitID) ON DELETE CASCADE
-);
-
-CREATE TABLE Lab_Test_Report(
-	LabTestResultID INTEGER NOT NULL,
-	PatientVisitID INTEGER NOT NULL,
-	LabTestPerformedDate DATE,
-	LabTestType CHAR(30),
-	ReferenceRangeHigh CHAR(100),
-	ReferenceRangeLow CHAR(100),
-	TestResultValue CHAR(100),
-	PRIMARY KEY (LabTestResultID, PatientVisitID),
 	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE
 );
 
-CREATE TABLE Plan(
-	Activity CHAR(30) NOT NULL,
-	PatientID INTEGER NOT NULL,
-	ActivityDate DATE,
-	PRIMARY KEY (Activity, PatientID),
+CREATE TABLE IF NOT EXISTS Patient_Test(
+	PatientID CHAR(100) NOT NULL,
+	LabTestResultID CHAR(100) NOT NULL,
+	PRIMARY KEY (PatientID,LabTestResultID),
+	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE,
+	FOREIGN KEY (LabTestResultID) REFERENCES LabTestReport(LabTestResultID) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Plan(
+	PlanID CHAR(100) NOT NULL,
+	Activity CHAR(100) NOT NULL,
+	PatientID CHAR(100) NOT NULL,
+	ActivityDate Date,
+	PRIMARY KEY (PlanID),
 	FOREIGN KEY (PatientID) REFERENCES Patient(PatientID) ON DELETE CASCADE
 );
