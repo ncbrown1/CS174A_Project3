@@ -140,7 +140,7 @@ public class DBDemo {
         try {
             String createString =
                     "SELECT * " +
-                            "FROM Guardian_of G, Patient P " +
+                            "FROM Guardian G, Patient P " +
                             "WHERE G.GuardianNo = P.PatientRole " +
                             "AND P.PatientID = " + PatientID;
             ResultSet rs = stmt.executeQuery(createString);
@@ -234,9 +234,10 @@ public class DBDemo {
                 try {
                     System.out.println("Patient Information: PatientID,GivenName,FamilyName,Suffix,Gender,Birthtime,ProviderID,Creation,PatientRole");
                     System.out.println("Enter Field to edit:");
+                    String NewField = null;
                     String NewValue = null;
                     try {
-                        PatientID = br.readLine();
+                        NewField = br.readLine();
 
                     } catch (IOException ioe) {
                         System.out.println("IO error trying to read your name!");
@@ -252,8 +253,8 @@ public class DBDemo {
 
                     String createString =
                             "UPDATE Patient P " +
-                                    "SET P." + PatientID + " = " + NewValue +
-                                    " WHERE P.PatientID = PatientID;";
+                                    "SET P." + NewField + " = " + NewValue +
+                                    " WHERE P.PatientID = " + PatientID;
                     System.out.println(createString);
                     this.executeUpdate(conn, createString);
                     System.out.println("Updated Patient Info:");
@@ -275,9 +276,10 @@ public class DBDemo {
             if (EditInfo.equalsIgnoreCase("Guardian\n")) {
                 try {
                     System.out.println("Guardian Enter Field to edit:");
+                    String NewField = null;
                     String NewValue = null;
                     try {
-                        PatientID = br.readLine();
+                        NewField = br.readLine();
                     } catch (IOException ioe) {
                         System.out.println("IO error trying to read your name!");
                         System.exit(1);
@@ -292,7 +294,7 @@ public class DBDemo {
 
                     String createString =
                             "UPDATE Guardian_of G " +
-                                    "SET G." + PatientID + " = " + NewValue +
+                                    "SET G." + NewField + " = " + NewValue +
                                     " WHERE G.GuardianNo = (SELECT P.PatientRole " +
                                     "FROM Patient P " +
                                     "WHERE P.PatientID = " + PatientID + ");";
@@ -322,6 +324,7 @@ public class DBDemo {
      * Connect to the DB and do some stuff
      */
     public static void main(String[] args) {
+        Main.main(args);
         DBDemo app = new DBDemo();
         app.run();
 
