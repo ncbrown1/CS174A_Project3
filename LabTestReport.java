@@ -11,34 +11,40 @@ public class LabTestReport {
     private String TestResultValue;
     private String ReferenceRangeHigh;
     private String ReferenceRangeLow;
-    private String PatientID;
 
-    public LabTestReport(String labTestResultID, String patientVisitID, Date labTestPerformedDate, String labTestType, String testResultValue, String referenceRangeHigh, String referenceRangeLow, String patientID) {
+    public LabTestReport(String labTestResultID, String patientVisitID, String labTestPerformedDate, String labTestType, String testResultValue, String referenceRangeHigh, String referenceRangeLow) {
         LabTestResultID = labTestResultID;
         PatientVisitID = patientVisitID;
-        LabTestPerformedDate = labTestPerformedDate;
+        LabTestPerformedDate = Str2Date.convert(labTestPerformedDate);
         LabTestType = labTestType;
         TestResultValue = testResultValue;
         ReferenceRangeHigh = referenceRangeHigh;
         ReferenceRangeLow = referenceRangeLow;
-        PatientID = patientID;
     }
 
-    public String getLabTestResultID() { return LabTestResultID; }
-    public String getPatientVisitID() { return PatientVisitID; }
-    public Date getLabTestPerformedDate() { return LabTestPerformedDate; }
-    public String getLabTestType() { return LabTestType; }
-    public String getTestResultValue() { return TestResultValue; }
-    public String getReferenceRangeHigh() { return ReferenceRangeHigh; }
-    public String getReferenceRangeLow() { return ReferenceRangeLow; }
-    public String getPatientID() { return PatientID; }
+    public String insertStatement() {
+        if(LabTestResultID == null) return "";
+        String ltr = getLabTestResultID(), pv = getPatientVisitID(), ltd = getLabTestPerformedDate(),
+                t = getLabTestType(), val = getTestResultValue(), rh = getReferenceRangeHigh(), rl = getReferenceRangeLow();
+        return "INSERT INTO LabTestReport(LabTestResultID,PatientVisitID,LabTestPerformedDate,LabTestType,ReferenceRangeHigh" +
+                ",ReferenceRangeLow,TestResultValue) VALUES ("+ltr+","+pv+","+ltd+","+t+","+rh+","+rl+","+val+") " +
+                "ON DUPLICATE KEY UPDATE PatientVisitID="+pv+",LabTestPerformedDate="+ltd+",LabTestType="+t+"," +
+                "ReferenceRangeHigh="+rh+",ReferenceRangeLow="+rl+",TestResultValue="+val+";";
+    }
+
+    public String getLabTestResultID() { return LabTestResultID == null ? "NULL" : "\"" + LabTestResultID + "\""; }
+    public String getPatientVisitID() { return PatientVisitID == null ? "NULL" : "\"" + PatientVisitID + "\""; }
+    public String getLabTestPerformedDate() { return LabTestPerformedDate == null ? "NULL" : "\"" + LabTestPerformedDate + "\""; }
+    public String getLabTestType() { return LabTestType == null ? "NULL" : "\"" + LabTestType + "\""; }
+    public String getTestResultValue() { return TestResultValue == null ? "NULL" : "\"" + TestResultValue + "\""; }
+    public String getReferenceRangeHigh() { return ReferenceRangeHigh == null ? "NULL" : "\"" + ReferenceRangeHigh + "\""; }
+    public String getReferenceRangeLow() { return ReferenceRangeLow == null ? "NULL" : "\"" + ReferenceRangeLow + "\""; }
 
     public void setLabTestResultID(String labTestResultID) { LabTestResultID = labTestResultID; }
     public void setPatientVisitID(String patientVisitID) { PatientVisitID = patientVisitID; }
-    public void setLabTestPerformedDate(Date labTestPerformedDate) { LabTestPerformedDate = labTestPerformedDate; }
+    public void setLabTestPerformedDate(String labTestPerformedDate) { LabTestPerformedDate = Str2Date.convert(labTestPerformedDate); }
     public void setLabTestType(String labTestType) { LabTestType = labTestType; }
     public void setTestResultValue(String testResultValue) { TestResultValue = testResultValue; }
     public void setReferenceRangeHigh(String referenceRangeHigh) { ReferenceRangeHigh = referenceRangeHigh; }
     public void setReferenceRangeLow(String referenceRangeLow) { ReferenceRangeLow = referenceRangeLow; }
-    public void setPatientID(String patientID) { PatientID = patientID; }
 }

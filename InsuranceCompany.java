@@ -16,11 +16,19 @@ public class InsuranceCompany {
         PolicyHolder = policyHolder;
     }
 
-    public String getPayerID() { return PayerID; }
-    public String getName() { return Name; }
-    public String getPurpose() { return Purpose; }
-    public String getPolicyType() { return PolicyType; }
-    public String getPolicyHolder() { return PolicyHolder; }
+    public String insertStatement() {
+        if(PayerID == null) return "";
+        String pid = getPayerID(), n = getName(), prp = getPurpose(), ptyp = getPolicyType(), ph = getPolicyHolder();
+        return "INSERT INTO InsuranceCompany(PayerID,Name,Purpose,PolicyType)" +
+                "VALUES("+pid+","+n+","+prp+","+ptyp+") " +
+                "ON DUPLICATE KEY UPDATE PayerID="+pid+",Name="+n+",Purpose="+prp+",PolicyType="+ptyp+";";
+    }
+
+    public String getPayerID() { return PayerID == null ? "NULL" : "\"" + PayerID + "\""; }
+    public String getName() { return Name == null ? "NULL" : "\"" + Name + "\""; }
+    public String getPurpose() { return Purpose == null ? "NULL" : "\"" + Purpose + "\""; }
+    public String getPolicyType() { return PolicyType == null ? "NULL" : "\"" + PolicyType + "\""; }
+    public String getPolicyHolder() { return PolicyHolder == null ? "NULL" : "\"" + PolicyHolder + "\""; }
 
     public void setPayerID(String payerID) { PayerID = payerID; }
     public void setName(String name) { Name = name; }

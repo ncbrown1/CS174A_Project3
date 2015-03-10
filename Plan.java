@@ -9,20 +9,28 @@ public class Plan {
     private Date ActivityDate;
     private String PlanID;
 
-    public Plan(String activity, String patientID, Date activityDate, String planID) {
+    public Plan(String activity, String patientID, String activityDate, String planID) {
         Activity = activity;
         PatientID = patientID;
-        ActivityDate = activityDate;
+        ActivityDate = Str2Date.convert(activityDate);
         PlanID = planID;
     }
 
-    public String getActivity() { return Activity; }
-    public String getPatientID() { return PatientID; }
-    public Date getActivityDate() { return ActivityDate; }
-    public String getPlanID() { return PlanID; }
+    public String insertStatement() {
+        if(PlanID == null) return "";
+        String a = getActivity(), pid = getPatientID(), ad = getActivityDate(), p = getPlanID();
+        return "INSERT INTO Plan(PlanID,Activity,PatientID,ActivityDate) " +
+                "VALUES("+p+","+a+","+pid+","+ad+") " +
+                "ON DUPLICATE KEY UPDATE Activity="+a+",PatientID="+pid+",ActivityDate="+ad+";";
+    }
+
+    public String getActivity() { return Activity == null ? "NULL" : "\"" + Activity + "\""; }
+    public String getPatientID() { return PatientID == null ? "NULL" : "\"" + PatientID + "\""; }
+    public String getActivityDate() { return ActivityDate == null ? "NULL" : "\"" + ActivityDate + "\""; }
+    public String getPlanID() { return PlanID == null ? "NULL" : "\"" + PlanID + "\""; }
 
     public void setActivity(String activity) { Activity = activity; }
     public void setPatientID(String patientID) { PatientID = patientID; }
-    public void setActivityDate(Date activityDate) { ActivityDate = activityDate; }
+    public void setActivityDate(String activityDate) { ActivityDate = Str2Date.convert(activityDate); }
     public void setPlanID(String planID) { PlanID = planID; }
 }

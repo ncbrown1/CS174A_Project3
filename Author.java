@@ -18,12 +18,21 @@ public class Author {
         ParticipatingRole = participatingRole;
     }
 
-    public String getAuthorID() { return AuthorID; }
-    public String getAuthorTitle() { return AuthorTitle; }
-    public String getAuthorFirstName() { return AuthorFirstName; }
-    public String getAuthorLastName() { return AuthorLastName; }
-    public String getPatientID() { return PatientID; }
-    public String getParticipatingRole() { return ParticipatingRole; }
+    public String insertStatement() {
+        if(AuthorID == null) return "";
+        String aid = getAuthorID(), t = getAuthorTitle(), fn = getAuthorFirstName(), ln = getAuthorLastName(),
+                pid = getPatientID(), pr = getParticipatingRole();
+        return "INSERT INTO Author(AuthorID,AuthorTitle,AuthorFirstName,AuthorLastName,PatientID,ParticipatingRole) " +
+                "VALUES ("+aid+","+t+","+fn+","+ln+","+pid+","+pr+") " +
+                "ON DUPLICATE KEY UPDATE AuthorTitle="+t+",AuthorFirstName="+fn+",AuthorLastName="+ln+",ParticipatingRole="+pr+";";
+    }
+
+    public String getAuthorID() { return AuthorID == null ? "NULL" : "\"" + AuthorID + "\""; }
+    public String getAuthorTitle() { return AuthorTitle == null ? "NULL" : "\"" + AuthorTitle + "\""; }
+    public String getAuthorFirstName() { return AuthorFirstName == null ? "NULL" : "\"" + AuthorFirstName + "\""; }
+    public String getAuthorLastName() { return AuthorLastName == null ? "NULL" : "\"" + AuthorLastName + "\""; }
+    public String getPatientID() { return PatientID == null ? "NULL" : "\"" + PatientID + "\""; }
+    public String getParticipatingRole() { return ParticipatingRole == null ? "NULL" : "\"" + ParticipatingRole + "\""; }
 
     public void setAuthorID(String authorID) { AuthorID = authorID; }
     public void setAuthorTitle(String authorTitle) { AuthorTitle = authorTitle; }
