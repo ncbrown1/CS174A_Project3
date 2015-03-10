@@ -58,7 +58,7 @@ public class Administrator {
     private final int portNumber = 3306;
 
     /** The name of the database we are testing with (this default is installed with MySQL) */
-    private final String dbName = "HealthDB";
+    private final String dbName = "healthinformationsystem";
 
     /** The name of the table we are testing with */
     private final String tableName = "Patient";

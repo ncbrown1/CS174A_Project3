@@ -1,5 +1,3 @@
-package src;
-
 /**
  * Created by christinamorris on 3/9/15.
  */
@@ -58,7 +56,7 @@ public class DBDemo {
     private final int portNumber = 3306;
 
     /** The name of the database we are testing with (this default is installed with MySQL) */
-    private final String dbName = "HealthDB";
+    private final String dbName = "healthinformationsystem";
 
     /** The name of the table we are testing with */
     private final String tableName = "Patient";
@@ -102,7 +100,7 @@ public class DBDemo {
     }
 
 
-    public void printPatientInfo(Statement stmt, int PatientID){
+    public void printPatientInfo(Statement stmt, String PatientID){
         try {
             String createString =
                     "SELECT * " +
@@ -138,7 +136,7 @@ public class DBDemo {
         }
     }
 
-    public void printGuardianInfo(Statement stmt, int PatientID){
+    public void printGuardianInfo(Statement stmt, String PatientID){
         try {
             String createString =
                     "SELECT * " +
@@ -194,11 +192,9 @@ public class DBDemo {
         System.out.println("Patient Interface");
         System.out.println("Enter PatientID");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String PatientString = null;
-        int PatientID = 0;
+        String PatientID = null;
         try {
-            PatientString = br.readLine();
-            PatientID = Integer.parseInt(PatientString);
+            PatientID = br.readLine();
         } catch (IOException ioe) {
             System.out.println("IO error trying to read your name!");
             System.exit(1);
@@ -240,7 +236,7 @@ public class DBDemo {
                     System.out.println("Enter Field to edit:");
                     String NewValue = null;
                     try {
-                        PatientString = br.readLine();
+                        PatientID = br.readLine();
 
                     } catch (IOException ioe) {
                         System.out.println("IO error trying to read your name!");
@@ -256,7 +252,7 @@ public class DBDemo {
 
                     String createString =
                             "UPDATE Patient P " +
-                                    "SET P." + PatientString + " = " + NewValue +
+                                    "SET P." + PatientID + " = " + NewValue +
                                     " WHERE P.PatientID = PatientID;";
                     System.out.println(createString);
                     this.executeUpdate(conn, createString);
@@ -281,7 +277,7 @@ public class DBDemo {
                     System.out.println("Guardian Enter Field to edit:");
                     String NewValue = null;
                     try {
-                        PatientString = br.readLine();
+                        PatientID = br.readLine();
                     } catch (IOException ioe) {
                         System.out.println("IO error trying to read your name!");
                         System.exit(1);
@@ -296,7 +292,7 @@ public class DBDemo {
 
                     String createString =
                             "UPDATE Guardian_of G " +
-                                    "SET G." + PatientString + " = " + NewValue +
+                                    "SET G." + PatientID + " = " + NewValue +
                                     " WHERE G.GuardianNo = (SELECT P.PatientRole " +
                                     "FROM Patient P " +
                                     "WHERE P.PatientID = " + PatientID + ");";
