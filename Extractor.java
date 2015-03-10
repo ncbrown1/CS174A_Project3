@@ -40,6 +40,17 @@ public class Extractor {
         return conn;
     }
 
+    public Connection getConnection(String databaseName) throws SQLException {
+        Connection conn = null;
+        Properties connectionProps = new Properties();
+        connectionProps.put("user", this.user);
+        connectionProps.put("password", this.pass);
+
+        conn = DriverManager.getConnection("jdbc:mysql://" + this.server + ":" + this.port + "/" + databaseName,
+                connectionProps);
+        return conn;
+    }
+
     public boolean executeUpdate(Connection conn, String command) throws SQLException {
         if(command == "") return true;
         Statement stmt = null;
@@ -61,14 +72,14 @@ public class Extractor {
         return rs;
     }
 
-    public void run() {
+    public void run(String databaseName, String tableName) throws SQLException {
 
         // Connect to MySQL
         Connection msgcon = null;
         Connection infocon = null;
         try {
-            msgcon = this.getMessagesConnection();
-            infocon = this.getInfoConnection();
+            msgcon = this.getConnection(databaseName);
+            infocon = this.getConnection(this.informationdb);
             System.out.println("Connected to database");
         } catch (SQLException e) {
             System.out.println("ERROR: Could not connect to the database");
@@ -76,46 +87,36 @@ public class Extractor {
             return;
         }
 
-        try {
-            ResultSet rs = this.executeQuery(msgcon, "SELECT * FROM messages");
-            while(rs.next()) {
-                Message message = new Message(
-                        rs.getString("MsgID"), rs.getString("Last_Accessed"), rs.getString("patientId"),
-                        rs.getString("GivenName"), rs.getString("FamilyName"), rs.getString("BirthTime"),
-                        rs.getString("providerId"), rs.getString("GuardianNo"), rs.getString("Relationship"),
-                        rs.getString("FirstName"), rs.getString("LastName"), rs.getString("phone"),
-                        rs.getString("address"), rs.getString("city"), rs.getString("state"),
-                        rs.getString("zip"), rs.getString("AuthorId"), rs.getString("AuthorTitle"),
-                        rs.getString("AuthorFirstName"), rs.getString("AuthorLastName"), rs.getString("ParticipatingRole"),
-                        rs.getString("PayerId"), rs.getString("Name"), rs.getString("PolicyHolder"),
-                        rs.getString("PolicyType"), rs.getString("Purpose"), rs.getString("RelativeId"),
-                        rs.getString("Relation"), rs.getString("age"), rs.getString("Diagnosis"),
-                        rs.getString("Id"), rs.getString("Substance"), rs.getString("Reaction"),
-                        rs.getString("Status"), rs.getString("LabTestResultId"), rs.getString("PatientVisitId"),
-                        rs.getString("LabTestPerformedDate"), rs.getString("LabTestType"), rs.getString("TestResultValue"),
-                        rs.getString("ReferenceRangeHigh"), rs.getString("ReferenceRangeLow"), rs.getString("PlanId"),
-                        rs.getString("Activity"), rs.getString("ScheduledDate"));
-                executeUpdate(msgcon,"UPDATE messages SET Last_Accessed=CURDATE() WHERE MsgID=\"" + rs.getString("MsgID") + "\"");
-                executeUpdate(infocon,message.getGuardian().insertStatement());
-                executeUpdate(infocon,message.getInsuranceCompany().insertStatement());
-                // executeUpdate(infocon,message.getAllergy().insertStatement());
-                executeUpdate(infocon,message.getLabTestReport().insertStatement());
-                executeUpdate(infocon,message.getPatient().insertStatement());
-                executeUpdate(infocon,message.getAuthor().insertStatement());
-                executeUpdate(infocon,message.getFamilyMember().insertStatement());
-                executeUpdate(infocon,message.getPatientAllergy().insertStatement());
-                executeUpdate(infocon,message.getPatientTest().insertStatement());
-                executeUpdate(infocon,message.getPlan().insertStatement());
-
-            }
-            System.out.println("Finished importing data");
-        } catch (SQLException e) {
-            System.out.println("ERROR: Could not connect to message exchange");
-            e.printStackTrace();
+        ResultSet rs = this.executeQuery(msgcon, "SELECT * FROM " + tableName);
+        while(rs.next()) {
+            Message message = new Message(
+                    rs.getString("MsgID"), rs.getString("Last_Accessed"), rs.getString("patientId"),
+                    rs.getString("GivenName"), rs.getString("FamilyName"), rs.getString("BirthTime"),
+                    rs.getString("providerId"), rs.getString("GuardianNo"), rs.getString("Relationship"),
+                    rs.getString("FirstName"), rs.getString("LastName"), rs.getString("phone"),
+                    rs.getString("address"), rs.getString("city"), rs.getString("state"),
+                    rs.getString("zip"), rs.getString("AuthorId"), rs.getString("AuthorTitle"),
+                    rs.getString("AuthorFirstName"), rs.getString("AuthorLastName"), rs.getString("ParticipatingRole"),
+                    rs.getString("PayerId"), rs.getString("Name"), rs.getString("PolicyHolder"),
+                    rs.getString("PolicyType"), rs.getString("Purpose"), rs.getString("RelativeId"),
+                    rs.getString("Relation"), rs.getString("age"), rs.getString("Diagnosis"),
+                    rs.getString("Id"), rs.getString("Substance"), rs.getString("Reaction"),
+                    rs.getString("Status"), rs.getString("LabTestResultId"), rs.getString("PatientVisitId"),
+                    rs.getString("LabTestPerformedDate"), rs.getString("LabTestType"), rs.getString("TestResultValue"),
+                    rs.getString("ReferenceRangeHigh"), rs.getString("ReferenceRangeLow"), rs.getString("PlanId"),
+                    rs.getString("Activity"), rs.getString("ScheduledDate"));
+            executeUpdate(msgcon,"UPDATE "+tableName+" SET Last_Accessed=CURDATE() WHERE MsgID=\"" + rs.getString("MsgID") + "\"");
+            executeUpdate(infocon,message.getGuardian().insertStatement());
+            executeUpdate(infocon,message.getInsuranceCompany().insertStatement());
+            executeUpdate(infocon,message.getLabTestReport().insertStatement());
+            executeUpdate(infocon,message.getPatient().insertStatement());
+            executeUpdate(infocon,message.getAuthor().insertStatement());
+            executeUpdate(infocon,message.getAuthorPatient().insertStatement());
+            executeUpdate(infocon,message.getFamilyMember().insertStatement());
+            executeUpdate(infocon,message.getPatientAllergy().insertStatement());
+            executeUpdate(infocon,message.getPatientTest().insertStatement());
+            executeUpdate(infocon,message.getPlan().insertStatement());
         }
-    }
-
-    public static void main(String[] args) {
-        new Extractor().run();
+        System.out.println("Finished importing data");
     }
 }

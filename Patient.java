@@ -30,6 +30,7 @@ public class Patient {
     }
 
     public String insertStatement() {
+        if(patientid == null || patientrole == null) return "";
         String pid = getPatientid(), gn = getGivenname(), fn = getFamilyname(), suf = getSuffix(),
                 gen = getGender(), bt = getBirthtime(), prid = getProviderId(),
                 xcd = getXmlCreationdate(), pr = getPatientrole(), pay = getPayerId();

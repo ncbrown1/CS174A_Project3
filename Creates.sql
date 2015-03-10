@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `healthinformationsysystem`;
-USE `healthinformationsysystem`;
+CREATE DATABASE IF NOT EXISTS `healthinformationsystem`;
+USE `healthinformationsystem`;
 
 CREATE TABLE IF NOT EXISTS Guardian(
 	GuardianNo CHAR(100) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Patient(
 	Suffix CHAR(100),
 	Gender CHAR(100),
 	Birthtime Date,
-	ProviderID CHAR(100) NOT NULL,
+	ProviderID CHAR(100),
 	Creation Date,
 	PatientRole CHAR(100) NOT NULL,
 	PayerID CHAR(100),

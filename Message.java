@@ -138,10 +138,17 @@ public class Message {
                 this.getAuthorTitle(),
                 this.getAuthorFirstName(),
                 this.getAuthorLastName(),
-                this.getPatientId(),
                 this.getParticipatingRole()
         );
         return author;
+    }
+
+    public AuthorPatient getAuthorPatient() {
+        AuthorPatient authorPatient = new AuthorPatient(
+                this.getAuthorId(),
+                this.getPatientId()
+        );
+        return authorPatient;
     }
 
     public InsuranceCompany getInsuranceCompany() {
