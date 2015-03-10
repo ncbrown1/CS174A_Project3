@@ -1,8 +1,4 @@
 package src;
-
-/**
- * Created by christinamorris on 3/9/15.
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,7 +28,7 @@ import java.sql.*;
  *
  * The user name and password are both "root", which should be correct if you followed
  * the advice in the MySQL tutorial. If you want to use different credentials, you can
- * change them below.
+ * change them below. 
  *
  * You will get the following exception if the credentials are wrong:
  *
@@ -43,7 +39,7 @@ import java.sql.*;
  *
  * java.net.ConnectException: Connection refused
  */
-public class DBDemo {
+public class Doctor {
 
     /** The name of the MySQL account to use (or empty for anonymous) */
     private final String userName = "root";
@@ -102,12 +98,12 @@ public class DBDemo {
     }
 
 
-    public void printPatientInfo(Statement stmt, int PatientID){
+    public void printAllergyInfo(Statement stmt, int AllergyID){
         try {
             String createString =
                     "SELECT * " +
-                            "FROM Patient P " +
-                            "WHERE P.PatientID = " + PatientID + ";";
+                            "FROM Allergy A " +
+                            "WHERE A.AllergyID = " + AllergyID + ";";
 
             ResultSet rs = stmt.executeQuery(createString);
             while(rs.next()){
@@ -130,45 +126,33 @@ public class DBDemo {
                 System.out.println("Creation: " + Creation);
                 System.out.println("PatientRole: " + PatientRole);
             }
-            System.out.println("Patient Information");
         } catch (SQLException e) {
-            System.out.println("ERROR: Could not find Patient");
+            System.out.println("ERROR: Could not find Allergy");
             e.printStackTrace();
             return;
         }
     }
 
-    public void printGuardianInfo(Statement stmt, int PatientID){
+    public void printPlanInfo(Statement stmt, int PatientID, String Activity){
         try {
             String createString =
                     "SELECT * " +
-                            "FROM Guardian_of G, Patient P " +
-                            "WHERE G.GuardianNo = P.PatientRole " +
+                            "FROM Plan P " +
+                            "WHERE P.Activity = " + Activity +
                             "AND P.PatientID = " + PatientID;
             ResultSet rs = stmt.executeQuery(createString);
             while(rs.next()){
                 //Retrieve by column name
-                String GivenName = rs.getString("GivenName");
-                String FamilyName = rs.getString("FamilyName");
-                String Suffix = rs.getString("Suffix");
-                String Gender = rs.getString("Gender");
-                String Birthtime = rs.getString("Birthtime");
-                String ProviderID = rs.getString("ProviderID");
-                String Creation = rs.getString("Creation");
-                String PatientRole = rs.getString("PatientRole");
+                String ActivityDate = rs.getString("ActivityDate");
 
                 //Display values
-                System.out.println("Name: " + GivenName + " " + FamilyName);
-                System.out.println("Suffix: " + Suffix);
-                System.out.println("Gender: " + Gender);
-                System.out.println("Birthtime: " + Birthtime);
-                System.out.println("ProviderID: " + ProviderID);
-                System.out.println("Creation: " + Creation);
-                System.out.println("PatientRole: " + PatientRole);
+                System.out.println("Activity: " + Activity);
+                System.out.println("PatientID: " + PatientID);
+                System.out.println("ActivityDate: " + ActivityDate);
+
             }
-            System.out.println("Patient Information");
         } catch (SQLException e) {
-            System.out.println("ERROR: Could not find Guardian");
+            System.out.println("ERROR: Could not find Plan");
             e.printStackTrace();
             return;
         }
@@ -191,7 +175,8 @@ public class DBDemo {
             return;
         }
 
-        System.out.println("Patient Interface");
+
+        System.out.println("Doctor Interface");
         System.out.println("Enter PatientID");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String PatientString = null;
@@ -204,120 +189,124 @@ public class DBDemo {
             System.exit(1);
         }
 
+        System.out.println("Enter AllergyID");
+        String AllergyString = null;
+        int AllergyID;
+        try {
+            AllergyString = br.readLine();
+            AllergyID = Integer.parseInt(AllergyString);
+        } catch (IOException ioe) {
+            System.out.println("IO error trying to read your name!");
+            System.exit(1);
+        }
+
+        System.out.println("Enter Activity");
+        String Activity = null;
+        try {
+            Activity = br.readLine();
+        } catch (IOException ioe) {
+            System.out.println("IO error trying to read your name!");
+            System.exit(1);
+        }
+
         try {
             conn = this.getConnection();
             stmt = conn.createStatement();
-            printPatientInfo(stmt, PatientID);
+            printAllergyInfo(stmt, PatientID);
         } catch (SQLException e) {
-            System.out.println("ERROR: Could not find Patient");
+            System.out.println("ERROR: Could not find Allergy");
             e.printStackTrace();
             return;
         }
         try {
             conn = this.getConnection();
             stmt = conn.createStatement();
-            printGuardianInfo(stmt, PatientID);
+            printPlanInfo(stmt, PatientID, Activity);
         } catch (SQLException e) {
-            System.out.println("ERROR: Could not find Patient");
+            System.out.println("ERROR: Could not find Activity");
             e.printStackTrace();
             return;
         }
-        String EditInfo = null;
-        while (EditInfo != "done") {
-            System.out.println("Type Patient to edit Patient information");
-            System.out.println("Type Guardian to edit Guardian information");
-            System.out.println("Type done to exit");
+        try {
+            System.out.println("Patient Information: PatientID,GivenName,FamilyName,Suffix,Gender,Birthtime,ProviderID,Creation,PatientRole");
+            System.out.println("Enter Field to edit:");
+            String NewValue = null;
             try {
-                EditInfo = br.readLine();
+                PatientString = br.readLine();
+
             } catch (IOException ioe) {
                 System.out.println("IO error trying to read your name!");
                 System.exit(1);
             }
-            System.out.println("You entered: '" + EditInfo + "'");
-            if (EditInfo.equalsIgnoreCase("Patient")) {
-                try {
-                    System.out.println("Patient Information: PatientID,GivenName,FamilyName,Suffix,Gender,Birthtime,ProviderID,Creation,PatientRole");
-                    System.out.println("Enter Field to edit:");
-                    String NewValue = null;
-                    try {
-                        PatientString = br.readLine();
-
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
-                    System.out.println("Enter new value:");
-                    try {
-                        NewValue = br.readLine();
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
-
-                    String createString =
-                            "UPDATE Patient P " +
-                                    "SET P." + PatientString + " = " + NewValue +
-                                    " WHERE P.PatientID = PatientID;";
-                    System.out.println(createString);
-                    this.executeUpdate(conn, createString);
-                    System.out.println("Updated Patient Info:");
-                    try {
-                        conn = this.getConnection();
-                        stmt = conn.createStatement();
-                        printPatientInfo(stmt, PatientID);
-                    } catch (SQLException e) {
-                        System.out.println("ERROR: Could not find Patient");
-                        e.printStackTrace();
-                        return;
-                    }
-                } catch (SQLException e) {
-                    System.out.println("ERROR: Could not update Patient");
-                    e.printStackTrace();
-                    return;
-                }
+            System.out.println("Enter new value:");
+            try {
+                NewValue = br.readLine();
+            } catch (IOException ioe) {
+                System.out.println("IO error trying to read your name!");
+                System.exit(1);
             }
-            if (EditInfo.equalsIgnoreCase("Guardian\n")) {
-                try {
-                    System.out.println("Guardian Enter Field to edit:");
-                    String NewValue = null;
-                    try {
-                        PatientString = br.readLine();
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
-                    System.out.println("Enter new value:");
-                    try {
-                        NewValue = br.readLine();
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
 
-                    String createString =
-                            "UPDATE Guardian_of G " +
-                                    "SET G." + PatientString + " = " + NewValue +
-                                    " WHERE G.GuardianNo = (SELECT P.PatientRole " +
-                                    "FROM Patient P " +
-                                    "WHERE P.PatientID = " + PatientID + ");";
-                    System.out.println(createString);
-                    this.executeUpdate(conn, createString);
-                    System.out.println("Updated Patient Info:");
-                    try {
-                        conn = this.getConnection();
-                        stmt = conn.createStatement();
-                        printGuardianInfo(stmt, PatientID);
-                    } catch (SQLException e) {
-                        System.out.println("ERROR: Could not find Patient");
-                        e.printStackTrace();
-                        return;
-                    }
-                } catch (SQLException e) {
-                    System.out.println("ERROR: Could not update Patient");
-                    e.printStackTrace();
-                    return;
-                }
+            String createString =
+                    "UPDATE Patient P " +
+                            "SET P." + PatientString + " = " + NewValue +
+                            " WHERE P.PatientID = PatientID;";
+            System.out.println(createString);
+            this.executeUpdate(conn, createString);
+            System.out.println("Updated Patient Info:");
+            try {
+                conn = this.getConnection();
+                stmt = conn.createStatement();
+                printAllergyInfo(stmt, PatientID);
+            } catch (SQLException e) {
+                System.out.println("ERROR: Could not find Patient");
+                e.printStackTrace();
+                return;
             }
+        } catch (SQLException e) {
+            System.out.println("ERROR: Could not update Patient");
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            System.out.println("Guardian Enter Field to edit:");
+            String NewValue = null;
+            try {
+                PatientString = br.readLine();
+            } catch (IOException ioe) {
+                System.out.println("IO error trying to read your name!");
+                System.exit(1);
+            }
+            System.out.println("Enter new value:");
+            try {
+                NewValue = br.readLine();
+            } catch (IOException ioe) {
+                System.out.println("IO error trying to read your name!");
+                System.exit(1);
+            }
+
+            String createString =
+                    "UPDATE Guardian_of G " +
+                            "SET G." + PatientString + " = " + NewValue +
+                            " WHERE G.GuardianNo = (SELECT P.PatientRole " +
+                            "FROM Patient P " +
+                            "WHERE P.PatientID = " + PatientID + ");";
+            System.out.println(createString);
+            this.executeUpdate(conn, createString);
+            System.out.println("Updated Patient Info:");
+            try {
+                conn = this.getConnection();
+                stmt = conn.createStatement();
+                printPlanInfo(stmt, PatientID, Activity);
+            } catch (SQLException e) {
+                System.out.println("ERROR: Could not find Patient");
+                e.printStackTrace();
+                return;
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR: Could not update Patient");
+            e.printStackTrace();
+            return;
         }
     }
 
@@ -326,7 +315,7 @@ public class DBDemo {
      * Connect to the DB and do some stuff
      */
     public static void main(String[] args) {
-        DBDemo app = new DBDemo();
+        Doctor app = new Doctor();
         app.run();
 
     }
