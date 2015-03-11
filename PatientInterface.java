@@ -8,57 +8,15 @@ import java.sql.Statement;
 import java.util.Properties;
 import java.io.*;
 import java.sql.*;
+import java.util.Scanner;
 
-/**
- * This class demonstrates how to connect to MySQL and run some basic commands.
- *
- * In order to use this, you have to download the Connector/J driver and add
- * its .jar file to your build path.  You can find it here:
- *
- * http://dev.mysql.com/downloads/connector/j/
- *
- * You will see the following exception if it's not in your class path:
- *
- * java.sql.SQLException: No suitable driver found for jdbc:mysql://localhost:3306/
- *
- * To add it to your class path:
- * 1. Right click on your project
- * 2. Go to Build Path -> Add External Archives...
- * 3. Select the file mysql-connector-java-5.1.24-bin.jar
- *    NOTE: If you have a different version of the .jar file, the name may be
- *    a little different.
- *
- * The user name and password are both "root", which should be correct if you followed
- * the advice in the MySQL tutorial. If you want to use different credentials, you can
- * change them below.
- *
- * You will get the following exception if the credentials are wrong:
- *
- * java.sql.SQLException: Access denied for user 'userName'@'localhost' (using password: YES)
- *
- * You will instead get the following exception if MySQL isn't installed, isn't
- * running, or if your serverName or portNumber are wrong:
- *
- * java.net.ConnectException: Connection refused
- */
-public class DBDemo {
+public class PatientInterface {
 
-    /** The name of the MySQL account to use (or empty for anonymous) */
     private final String userName = "root";
-
-    /** The password for the MySQL account (or empty for anonymous) */
     private final String password = "";
-
-    /** The name of the computer running MySQL */
     private final String serverName = "localhost";
-
-    /** The port of the MySQL server (default is 3306) */
     private final int portNumber = 3306;
-
-    /** The name of the database we are testing with (this default is installed with MySQL) */
     private final String dbName = "healthinformationsystem";
-
-    /** The name of the table we are testing with */
     private final String tableName = "Patient";
 
     /**
@@ -148,23 +106,21 @@ public class DBDemo {
                 //Retrieve by column name
                 String GivenName = rs.getString("GivenName");
                 String FamilyName = rs.getString("FamilyName");
-                String Suffix = rs.getString("Suffix");
-                String Gender = rs.getString("Gender");
-                String Birthtime = rs.getString("Birthtime");
-                String ProviderID = rs.getString("ProviderID");
-                String Creation = rs.getString("Creation");
-                String PatientRole = rs.getString("PatientRole");
+                String Phone = rs.getString("Phone");
+                String Address = rs.getString("Address");
+                String City = rs.getString("City");
+                String State = rs.getString("State");
+                String Zip = rs.getString("Zip");
 
                 //Display values
-                System.out.println("Name: " + GivenName + " " + FamilyName);
-                System.out.println("Suffix: " + Suffix);
-                System.out.println("Gender: " + Gender);
-                System.out.println("Birthtime: " + Birthtime);
-                System.out.println("ProviderID: " + ProviderID);
-                System.out.println("Creation: " + Creation);
-                System.out.println("PatientRole: " + PatientRole);
+                System.out.println("GivenName: " + GivenName);
+                System.out.println("FamilyName: " + FamilyName);
+                System.out.println("Phone: " + Phone);
+                System.out.println("Address: " + Address);
+                System.out.println("City: " + City);
+                System.out.println("State: " + State);
+                System.out.println("Zip: " + Zip);
             }
-            System.out.println("Patient Information");
         } catch (SQLException e) {
             System.out.println("ERROR: Could not find Guardian");
             e.printStackTrace();
@@ -178,8 +134,8 @@ public class DBDemo {
     public void run() {
 
         // Connect to MySQL
-        Connection conn = null;
-        Statement stmt = null;
+        Connection conn;
+        Statement stmt;
         try {
             conn = this.getConnection();
             System.out.println("Connected to database");
@@ -189,19 +145,14 @@ public class DBDemo {
             return;
         }
 
-        System.out.println("Patient Interface");
+        System.out.println("===== Patient Interface =====");
         System.out.println("Enter PatientID");
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String PatientID = null;
-        try {
-            PatientID = br.readLine();
-        } catch (IOException ioe) {
-            System.out.println("IO error trying to read your name!");
-            System.exit(1);
-        }
+
+        Scanner scan = new Scanner(System.in);
+        System.out.print(">> ");
+        String PatientID = scan.next();
 
         try {
-            conn = this.getConnection();
             stmt = conn.createStatement();
             printPatientInfo(stmt, PatientID);
         } catch (SQLException e) {
@@ -209,47 +160,25 @@ public class DBDemo {
             e.printStackTrace();
             return;
         }
-        try {
-            conn = this.getConnection();
-            stmt = conn.createStatement();
-            printGuardianInfo(stmt, PatientID);
-        } catch (SQLException e) {
-            System.out.println("ERROR: Could not find Patient");
-            e.printStackTrace();
-            return;
-        }
-        String EditInfo = null;
-        while (EditInfo != "done") {
-            System.out.println("Type Patient to edit Patient information");
-            System.out.println("Type Guardian to edit Guardian information");
-            System.out.println("Type done to exit");
-            try {
-                EditInfo = br.readLine();
-            } catch (IOException ioe) {
-                System.out.println("IO error trying to read your name!");
-                System.exit(1);
-            }
-            System.out.println("You entered: '" + EditInfo + "'");
-            if (EditInfo.equalsIgnoreCase("Patient")) {
-                try {
-                    System.out.println("Patient Information: PatientID,GivenName,FamilyName,Suffix,Gender,Birthtime,ProviderID,Creation,PatientRole");
-                    System.out.println("Enter Field to edit:");
-                    String NewField = null;
-                    String NewValue = null;
-                    try {
-                        NewField = br.readLine();
 
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
-                    System.out.println("Enter new value:");
-                    try {
-                        NewValue = br.readLine();
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
+        String EditInfo = null;
+        int EditChoice = 0;
+        while(EditChoice != 3) {
+            System.out.println("1. Edit Patient information");
+            System.out.println("2. Edit Guardian information");
+            System.out.println("3. Exit");
+            System.out.print(">> ");
+
+            EditChoice = scan.nextInt();
+
+            System.out.println("You entered: '" + EditInfo + "'");
+            if (EditChoice == 1) { //EditInfo.equalsIgnoreCase("Patient")) {
+                try {
+                    System.out.println("Patient Information: GivenName,FamilyName,Suffix,Gender,Birthtime,ProviderID,Creation,PatientRole");
+                    System.out.print("Enter Field to edit:\n>> ");
+                    String NewField = scan.next();
+                    System.out.print("Enter new value:\n>> ");
+                    String NewValue = "'" + scan.next() + "'";
 
                     String createString =
                             "UPDATE Patient P " +
@@ -259,7 +188,6 @@ public class DBDemo {
                     this.executeUpdate(conn, createString);
                     System.out.println("Updated Patient Info:");
                     try {
-                        conn = this.getConnection();
                         stmt = conn.createStatement();
                         printPatientInfo(stmt, PatientID);
                     } catch (SQLException e) {
@@ -272,28 +200,23 @@ public class DBDemo {
                     e.printStackTrace();
                     return;
                 }
-            }
-            if (EditInfo.equalsIgnoreCase("Guardian\n")) {
+            } else if (EditChoice == 2) {//EditInfo.equalsIgnoreCase("Guardian")) {
                 try {
-                    System.out.println("Guardian Enter Field to edit:");
-                    String NewField = null;
-                    String NewValue = null;
-                    try {
-                        NewField = br.readLine();
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
-                    System.out.println("Enter new value:");
-                    try {
-                        NewValue = br.readLine();
-                    } catch (IOException ioe) {
-                        System.out.println("IO error trying to read your name!");
-                        System.exit(1);
-                    }
+                    stmt = conn.createStatement();
+                    printGuardianInfo(stmt,PatientID);
+                } catch (SQLException e) {
+                    System.out.println("ERROR: Could not find guardian");
+                    e.printStackTrace();
+                    return;
+                }
+                try {
+                    System.out.print("Guardian Enter Field to edit:\n>> ");
+                    String NewField = scan.next();
+                    System.out.print("Enter new value:\n>> ");
+                    String NewValue = "'" + scan.next() + "'";
 
                     String createString =
-                            "UPDATE Guardian_of G " +
+                            "UPDATE Guardian G " +
                                     "SET G." + NewField + " = " + NewValue +
                                     " WHERE G.GuardianNo = (SELECT P.PatientRole " +
                                     "FROM Patient P " +
@@ -324,8 +247,7 @@ public class DBDemo {
      * Connect to the DB and do some stuff
      */
     public static void main(String[] args) {
-        Main.main(args);
-        DBDemo app = new DBDemo();
+        PatientInterface app = new PatientInterface();
         app.run();
 
     }

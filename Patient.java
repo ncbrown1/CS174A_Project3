@@ -37,7 +37,7 @@ public class Patient {
         return "INSERT INTO Patient (PatientID,GivenName,FamilyName,Suffix,Gender,Birthtime,ProviderID,Creation,PatientRole,PayerID)" +
                 "VALUES (" + pid + "," + gn + "," + fn + "," + suf + "," + gen + "," +
                 bt + "," + prid + "," + xcd + "," + pr + "," + pay + ") " +
-                "ON DUPLICATE KEY UPDATE GivenName=" + pid + ",FamilyName=" + fn + ",Suffix=" + suf + "," +
+                "ON DUPLICATE KEY UPDATE GivenName=" + gn + ",FamilyName=" + fn + ",Suffix=" + suf + "," +
                 "Gender=" + gen + ",Birthtime=" + bt + ",ProviderID=" + prid + ",Creation=" + xcd + "," +
                 "PatientRole=" + pr + ",PayerID=" + pay + ";";
     }
